@@ -102,8 +102,8 @@ light_position_feed = io.get_feed("tiki-light-position")
 # Initialize PyPortal Display
 display = board.DISPLAY
 
-WIDTH = board.DISPLAY.width
-HEIGHT = board.DISPLAY.height
+WIDTH = board.DISPLAY.width  # 320
+HEIGHT = board.DISPLAY.height  # 240
 
 # Define basic display groups
 splash = displayio.Group(max_size=10) # The Main Display Group
@@ -124,7 +124,7 @@ red = (255,0,0)
 green = (50,205,50)
 default_button_label = "Turn on/off lights"
 buttons = []
-button = Button(x=10, y=10, width=250, height=60,
+button = Button(x=10, y=10, width=WIDTH-10, height=120,
                 style=Button.SHADOWROUNDRECT,
                 fill_color=green,
                 outline_color=0x222222,
@@ -139,8 +139,8 @@ splash.append(button_group)
 #display.show(button_group)
 
 print("creating touch screen object")
-screen_width = 240
-screen_height = 320
+screen_width = WIDTH
+screen_height = HEIGHT
 ts = adafruit_touchscreen.Touchscreen(board.TOUCH_XL, board.TOUCH_XR,
                                       board.TOUCH_YD, board.TOUCH_YU,
                                       calibration=((5200, 59000), (5800, 57000)),
@@ -152,9 +152,6 @@ board.DISPLAY.show(splash)
 print("starting forever touch loop")
 while True:
     touched = ts.touch_point
-    # Returns tuple of (X,Y,?)
-    # X range 0...320
-    # Y range 0...240
     if touched:
         for button in buttons:
             if button.contains(touched):
